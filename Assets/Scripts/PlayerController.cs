@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _playerVelocity = 3f;
     [SerializeField] private Transform _sensorPosition;
     [SerializeField] private Vector2 _sensorSize = new Vector2(0.5f, 0.5f);
+    [SerializeField] private Vector2 _hitboxSize = new Vector2(1, 1);
     private Animator _animator;
     private bool _alreadyLanded = true;
 
@@ -119,11 +120,22 @@ public class PlayerController : MonoBehaviour
     void Interact()
     {
         Debug.Log("hago cositas, miau");
+        Collider2D[] interactuables = Physics2D.OverlapBoxAll(transform.position, _hitboxSize, 0);
+        foreach (Collider2D estrella in interactuables)
+        {
+            if (estrella.gameObject.tag == "Star")
+            {
+                Debug.Log("Toco el pirulín del joskar");
+            }
+        }
     }
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(_sensorPosition.position, _sensorSize);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position, _hitboxSize);
     }
 
 
