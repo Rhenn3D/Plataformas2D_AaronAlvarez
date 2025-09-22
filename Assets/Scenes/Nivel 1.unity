@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bad84e745c25344c8cbee78e566ad73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpForce: 7
+  _jumpForce: 2
   _jumpHeigh: 3
   _playerVelocity: 5
   _sensorPosition: {fileID: 1500790832}

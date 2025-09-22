@@ -9,14 +9,15 @@ public class PlayerController : MonoBehaviour
     private InputAction _moveAction;
     private Vector2 _moveInput;
     private InputAction _jumpAction;
+    private InputAction _interactAction;
     private InputAction _attackAction;
     [SerializeField] private float _jumpForce = 3f;
-    [SerializeField] private float _jumpHeigh = 3f;
     [SerializeField] private float _playerVelocity = 3f;
     [SerializeField] private Transform _sensorPosition;
     [SerializeField] private Vector2 _sensorSize = new Vector2(0.5f, 0.5f);
     private Animator _animator;
     private bool _alreadyLanded = true;
+
 
 
 
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
         _moveAction = InputSystem.actions["Move"];
         _jumpAction = InputSystem.actions["Jump"];
         _attackAction = InputSystem.actions["Attack"];
+        _interactAction = InputSystem.actions["Interact"];
         _animator = GetComponent<Animator>();
 
     }
@@ -41,24 +43,23 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //if (groundSensor = Collider.OnTriggerEnter)
-        if (_alreadyLanded == false)
-        {
-            if (IsGrounded())
-        {
-            _animator.SetBool("IsJumping", false);
-            _alreadyLanded = true;
-        }
-        }
+
 
         //transform.position = transform.position + new Vector3(_moveInput.x, 0, 0) * _playerVelocity * Time.deltaTime;
-            if (_jumpAction.WasPressedThisFrame() && IsGrounded())
-            {
-                Jump();
-            }
+        if (_jumpAction.WasPressedThisFrame() && IsGrounded())
+        {
+            Jump();
+        }
         Movement();
-        
 
-        
+        if (_interactAction.WasPerformedThisFrame())
+        {
+            Interact();
+        }
+        _animator.SetBool("IsJumping", !IsGrounded());
+
+
+
 
     }
     void Movement()
@@ -94,9 +95,9 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        _rigidBody.AddForce(transform.up * Mathf.Sqrt(_jumpHeigh * -2 * Physics2D.gravity.y), ForceMode2D.Impulse);
-        _animator.SetBool("IsJumping", true);
-        _alreadyLanded = false;
+        _rigidBody.AddForce(transform.up * Mathf.Sqrt(_jumpForce * -2 * Physics2D.gravity.y), ForceMode2D.Impulse);
+
+
     }
 
     bool IsGrounded()
@@ -106,13 +107,18 @@ public class PlayerController : MonoBehaviour
         {
             if (grounds.gameObject.layer == 3)
             {
-                //_alreadyLanded = true;
+
                 return true;
             }
 
         }
-        //_alreadyLanded = false;
+
         return false;
+    }
+
+    void Interact()
+    {
+        Debug.Log("hago cositas, miau");
     }
     void OnDrawGizmos()
     {
@@ -121,6 +127,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    //tarea ataque
 
 
 }
