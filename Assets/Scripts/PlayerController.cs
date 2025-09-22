@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _playerVelocity = 3f;
     [SerializeField] private Transform _sensorPosition;
     [SerializeField] private Vector2 _sensorSize = new Vector2(0.5f, 0.5f);
+    private Animator _animator;
+
+
 
 
     void Awake()
@@ -23,7 +26,7 @@ public class PlayerController : MonoBehaviour
         _moveAction = InputSystem.actions["Move"];
         _jumpAction = InputSystem.actions["Jump"];
         _attackAction = InputSystem.actions["Attack"];
-
+        _animator = GetComponent<Animator>();
 
     }
 
@@ -43,17 +46,36 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+        Movement();
+        
 
+    }
+    void Movement()
+    {
+        if (_moveInput.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            _animator.SetBool("IsRuning", true);
+        }
+        else if (_moveInput.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            _animator.SetBool("IsRuning", true);
+        }
+        else
+        {
+            _animator.SetBool("IsRuning", false);
+        }
     }
 
     void FixedUpdate()
     {
 
         _moveInput = _moveAction.ReadValue<Vector2>();
-        Movement();
+        Move();
 
     }
-    void Movement()
+    void Move()
     {
 
         _rigidBody.linearVelocity = new Vector2(_moveInput.x * _playerVelocity, _rigidBody.linearVelocityY);
