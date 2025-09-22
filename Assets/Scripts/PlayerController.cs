@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _sensorPosition;
     [SerializeField] private Vector2 _sensorSize = new Vector2(0.5f, 0.5f);
     private Animator _animator;
+    private bool _alreadyLanded = true;
 
 
 
@@ -40,13 +41,23 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //if (groundSensor = Collider.OnTriggerEnter)
+        if (_alreadyLanded == false)
+        {
+            if (IsGrounded())
+        {
+            _animator.SetBool("IsJumping", false);
+            _alreadyLanded = true;
+        }
+        }
 
         //transform.position = transform.position + new Vector3(_moveInput.x, 0, 0) * _playerVelocity * Time.deltaTime;
-        if (_jumpAction.WasPressedThisFrame() && IsGrounded())
-        {
-            Jump();
-        }
+            if (_jumpAction.WasPressedThisFrame() && IsGrounded())
+            {
+                Jump();
+            }
         Movement();
+        
+
         
 
     }
@@ -84,7 +95,8 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         _rigidBody.AddForce(transform.up * Mathf.Sqrt(_jumpHeigh * -2 * Physics2D.gravity.y), ForceMode2D.Impulse);
-
+        _animator.SetBool("IsJumping", true);
+        _alreadyLanded = false;
     }
 
     bool IsGrounded()
@@ -94,10 +106,12 @@ public class PlayerController : MonoBehaviour
         {
             if (grounds.gameObject.layer == 3)
             {
+                //_alreadyLanded = true;
                 return true;
             }
-        }
 
+        }
+        //_alreadyLanded = false;
         return false;
     }
     void OnDrawGizmos()
