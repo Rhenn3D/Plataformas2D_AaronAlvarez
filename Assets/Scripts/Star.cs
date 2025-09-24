@@ -3,17 +3,19 @@ using UnityEngine;
 public class Star : MonoBehaviour
 {
 
-    GameManager _gameManager;
+    //GameManager _gameManager;
 
 
     void Awake()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public void Interaction()
     {
-        _gameManager.AddStar();
+        //_gameManager.AddStar();
+
+        GameManager.instance.AddStar();
         Destroy(gameObject, 0.5f);
     }
 }
