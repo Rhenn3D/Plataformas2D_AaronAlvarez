@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 _hitboxSize = new Vector2(1, 1);
     private Animator _animator;
     private bool _alreadyLanded = true;
+    [SerializeField] private int vida = 5;
 
 
 
@@ -144,6 +145,19 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(transform.position, _hitboxSize);
+    }
+
+    public void RecibirDaño(int Dañito)
+    {
+        vida -= Dañito;
+        Muerte();
+    }
+    void Muerte()
+    {
+        if (vida <= 0)
+        {
+            Debug.Log("Muere");
+        }
     }
 
 
