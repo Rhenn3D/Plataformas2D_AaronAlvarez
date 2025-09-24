@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -119,13 +120,20 @@ public class PlayerController : MonoBehaviour
 
     void Interact()
     {
-        Debug.Log("hago cositas, miau");
+        //Debug.Log("hago cositas, miau");
         Collider2D[] interactuables = Physics2D.OverlapBoxAll(transform.position, _hitboxSize, 0);
         foreach (Collider2D estrella in interactuables)
         {
             if (estrella.gameObject.tag == "Star")
             {
-                Debug.Log("Toco el pirulín del joskar");
+                Star starScript = estrella.gameObject.GetComponent<Star>();
+                if (starScript != null)
+
+                {
+                    starScript.Interaction();
+                }
+
+
             }
         }
     }
