@@ -435,6 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d27b62620aa99b4aa0e854c12cff7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _starSFX: {fileID: 0}
 --- !u!61 &284590899
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -605,6 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d27b62620aa99b4aa0e854c12cff7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _starSFX: {fileID: 0}
 --- !u!61 &297966937
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -771,7 +773,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 6418180475301049370, guid: c45941adb9df3524d995a6cdbc225a5e, type: 2}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -904,6 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d27b62620aa99b4aa0e854c12cff7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _starSFX: {fileID: 0}
 --- !u!61 &401530158
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24160,6 +24163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d27b62620aa99b4aa0e854c12cff7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _starSFX: {fileID: 0}
 --- !u!61 &1262495915
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24499,6 +24503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d27b62620aa99b4aa0e854c12cff7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _starSFX: {fileID: 0}
 --- !u!1 &1500790831
 GameObject:
   m_ObjectHideFlags: 0
@@ -24690,6 +24695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bgmSource: {fileID: 394003369}
   _sfxSource: {fileID: 1601797085}
+  menuBGM: 0
 --- !u!4 &1778266371
 Transform:
   m_ObjectHideFlags: 0

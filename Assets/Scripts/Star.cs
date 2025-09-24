@@ -3,6 +3,8 @@ using UnityEngine;
 public class Star : MonoBehaviour
 {
 
+
+    [SerializeField] private AudioClip _starSFX;
     //GameManager _gameManager;
 
 
@@ -16,6 +18,9 @@ public class Star : MonoBehaviour
         //_gameManager.AddStar();
 
         GameManager.instance.AddStar();
+        AudioManager.instance.ReproduceSound(_starSFX);
         Destroy(gameObject, 0.5f);
+
+
     }
 }
