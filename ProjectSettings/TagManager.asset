@@ -42,5 +42,32 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Cielo
+    uniqueID: 3954848773
+    locked: 0
+  - name: Nubes1
+    uniqueID: 3609174763
+    locked: 0
+  - name: Nubes2
+    uniqueID: 3237163017
+    locked: 0
+  - name: Rocas
+    uniqueID: 3278931013
+    locked: 0
+  - name: Arboles
+    uniqueID: 1422831615
+    locked: 0
+  - name: Player
+    uniqueID: 3851762223
+    locked: 0
+  - name: Terrain
+    uniqueID: 509642789
+    locked: 0
+  - name: Nubes
+    uniqueID: 3220584315
+    locked: 0
+  - name: Enemies
+    uniqueID: 3970673137
+    locked: 0
   m_RenderingLayers:
   - Default

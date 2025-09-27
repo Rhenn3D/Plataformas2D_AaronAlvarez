@@ -49,9 +49,10 @@ public class Enemigo : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        mimikDirection *= -1;
+        
         if (collision.gameObject.CompareTag("Player") && EnemyCooldown >= TimerAttack)
         {
+            mimikDirection *= -1;
             PlayerController playerScript = collision.gameObject.GetComponent<PlayerController>();
             playerScript.RecibirDaño(mimikDamage);
             EnemyCooldown = 0;
