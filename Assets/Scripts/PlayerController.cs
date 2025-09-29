@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 _hitboxSize = new Vector2(1, 1);
     private Animator _animator;
     private bool _alreadyLanded = true;
-    [SerializeField] private int vida = 5;
+    [SerializeField] private int vidaMax = 5;
+    [SerializeField] private int _currentHealth;
 
 
 
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        _currentHealth = vidaMax;
     }
 
 
@@ -147,21 +148,22 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, _hitboxSize);
     }
 
+
+
     public void RecibirDaño(int Dañito)
     {
-        vida -= Dañito;
-        Muerte();
-    }
-    void Muerte()
-    {
-        if (vida <= 0)
+        _currentHealth -= Dañito;
+        if (vidaMax <= 0)
         {
-            Debug.Log("Muere");
-        }
+            Death();
+        } 
     }
 
 
-    //tarea ataque
 
 
+    void Death()
+    {
+        Debug.Log("Muere");
+    }
 }
