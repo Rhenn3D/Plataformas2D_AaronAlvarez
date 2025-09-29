@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private InputActionAsset playerInputs;
     private InputAction _pauseInput;
+    private bool _isPaused = false;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -41,8 +42,20 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        Time.timeScale = 0;
-        _pauseCanvas.SetActive(true);
-        playerInputs.FindActionMap("Player").Disable();
+        if (_isPaused)
+        {
+            Time.timeScale = 1;
+            _pauseCanvas.SetActive(false);
+            playerInputs.FindActionMap("Player").Enable();
+            _isPaused = false;
+        }
+        else
+        {
+            Time.timeScale = 0;
+            _pauseCanvas.SetActive(true);
+            playerInputs.FindActionMap("Player").Disable();
+            _isPaused = true;
+        }
+        
     }
 }
