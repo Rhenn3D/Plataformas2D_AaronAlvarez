@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
     private int _stars = 0;
     [SerializeField] private GameObject _pauseCanvas;
 
+    [SerializeField] private InputActionAsset playerInputs;
+    private InputAction _pauseInput;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -20,6 +23,14 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+        _pauseInput = InputSystem.actions["Pause"];
+    }
+    void Update()
+    {
+        if (_pauseInput.WasPressedThisFrame())
+        {
+            Pause();
+        }
     }
 
     public void AddStar()
@@ -32,5 +43,6 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         _pauseCanvas.SetActive(true);
+        playerInputs.FindActionMap("Player").Disable();
     }
 }
