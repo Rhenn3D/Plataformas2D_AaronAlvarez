@@ -1,10 +1,12 @@
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance { get; private set; } //Esto sirve que para acceder (get) sea público y que cuando quiera cambiarlo es privado (private set)
     private int _stars = 0;
+    [SerializeField] private GameObject _pauseCanvas;
 
     void Awake()
     {
@@ -24,5 +26,11 @@ public class GameManager : MonoBehaviour
     {
         _stars++;
         Debug.Log("Estrellas recogicas: " + _stars);
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        _pauseCanvas.SetActive(true);
     }
 }
