@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance { get; private set; } //Esto sirve que para acceder (get) sea público y que cuando quiera cambiarlo es privado (private set)
     private int _stars = 0;
-    [SerializeField] private GameObject _pauseCanvas;
+
 
     [SerializeField] private InputActionAsset playerInputs;
     private InputAction _pauseInput;
@@ -45,14 +45,14 @@ public class GameManager : MonoBehaviour
         if (_isPaused)
         {
             Time.timeScale = 1;
-            _pauseCanvas.SetActive(false);
+            GUIManager.Instance.ChangeCanvasStatus(GUIManager.Instance._pauseCanvas, false);
             playerInputs.FindActionMap("Player").Enable();
             _isPaused = false;
         }
         else
         {
             Time.timeScale = 0;
-            _pauseCanvas.SetActive(true);
+            GUIManager.Instance.ChangeCanvasStatus(GUIManager.Instance._pauseCanvas, true);
             playerInputs.FindActionMap("Player").Disable();
             _isPaused = true;
         }
