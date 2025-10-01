@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loadingCanvas: {fileID: 294576818}
+  _loadingBar: {fileID: 175558099}
 --- !u!1 &48321461
 GameObject:
   m_ObjectHideFlags: 0
