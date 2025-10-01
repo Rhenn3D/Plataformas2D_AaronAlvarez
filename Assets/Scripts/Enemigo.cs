@@ -45,17 +45,22 @@ public class Enemigo : MonoBehaviour
         }
     }
 
+    
 
 
-    void OnCollisionStay2D(Collision2D collision)
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        if (collision.gameObject.CompareTag("Player") && EnemyCooldown >= TimerAttack)
+        if (collision.gameObject.CompareTag("Player"))
         {
             mimikDirection *= -1;
-            PlayerController playerScript = collision.gameObject.GetComponent<PlayerController>();
-            playerScript.RecibirDaño(mimikDamage);
-            EnemyCooldown = 0;
+            if (collision.gameObject.CompareTag("Player") && EnemyCooldown >= TimerAttack)
+            {
+        
+                PlayerController playerScript = collision.gameObject.GetComponent<PlayerController>();
+                playerScript.RecibirDaño(mimikDamage);
+                EnemyCooldown = 0;
+            }
         }
     }
     void OnDrawGizmos()

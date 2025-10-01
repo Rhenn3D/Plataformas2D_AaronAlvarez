@@ -8,12 +8,13 @@ public class SceneLoader : MonoBehaviour
     public static SceneLoader Instance;
     [SerializeField] private GameObject _loadingCanvas;
     [SerializeField] private Image _loadingBar;
-    private Animator _animator;
+    [SerializeField] private Text _loadingText;
+
 
 
     void Awake()
     {
-        _animator = GetComponent<Animator>();
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -45,18 +46,21 @@ public class SceneLoader : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             //_loadingBar.fillAmount = asyncLoad.progress;
-            _animator.SetBool("IsLoading", true);
 
-            fakeLoadPercentage += 0.001f;
+            fakeLoadPercentage += 0.02f;
+            Mathf.Clamp01(fakeLoadPercentage);
             _loadingBar.fillAmount = fakeLoadPercentage;
+            _loadingText.text = (fakeLoadPercentage * 100).ToString("F0") + "%";
 
             if (asyncLoad.progress >= 0.9f && fakeLoadPercentage >= 0.99f)
             {
                 asyncLoad.allowSceneActivation = true;
             }
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.1f);
         }
-
+        Time.timeScale = 1;
+        GameManager.instance.playerInputs.FindActionMap("Player").Enable();
+        GameManager.instance._isPaused = false;
         _loadingCanvas.SetActive(false);
     }
 }

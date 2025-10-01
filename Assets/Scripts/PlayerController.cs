@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private InputAction _jumpAction;
     private InputAction _interactAction;
     private InputAction _attackAction;
+    [SerializeField] private Transform _attackHitbox;
+    [SerializeField] private float _attackZone = 0.25f;
     [SerializeField] private float _jumpForce = 3f;
     [SerializeField] private float _playerVelocity = 3f;
     [SerializeField] private Transform _sensorPosition;
@@ -19,8 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 _hitboxSize = new Vector2(1, 1);
     private Animator _animator;
     private bool _alreadyLanded = true;
-    [SerializeField] private int vidaMax = 5;
-    [SerializeField] private int _currentHealth;
+    [SerializeField] private float vidaMax = 5f;
+    [SerializeField] private float _currentHealth;
+    [SerializeField] private bool isAttacking = false;
 
 
 
@@ -46,6 +49,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isAttacking == true)
+        {
+            return;
+        }
+        
+    
+
+
         //if (groundSensor = Collider.OnTriggerEnter)
 
 
@@ -61,7 +72,14 @@ public class PlayerController : MonoBehaviour
             Interact();
         }
         _animator.SetBool("IsJumping", !IsGrounded());
+        
+        if (_attackAction.WasPressedThisFrame() && !_moveAction.WasPressedThisFrame() && IsGrounded())
+        {
+            isAttacking = true;
+            _animator.SetTrigger("IsAttacking");
+        }
 
+       
 
 
 
@@ -146,6 +164,26 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(transform.position, _hitboxSize);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(_attackHitbox.position, _attackZone);
+    }
+
+    public void NormalAttack()
+    {
+        isAttacking = true;
+        Collider2D[] enemy = Physics2D.OverlapCircleAll(_attackHitbox.position, _attackZone, 0);
+        foreach (Collider2D enemies in enemy)
+        {
+            if (enemies.gameObject.layer == 8)
+            {
+
+                Debug.Log("Mas pegao");
+            }
+        
+
+        }
+        isAttacking = false;
     }
 
 
@@ -154,11 +192,14 @@ public class PlayerController : MonoBehaviour
     {
         _currentHealth -= Dañito;
 
+        float vida = _currentHealth / vidaMax;
+        Debug.Log("Holi");
+
         GUIManager.Instance.UpdateHealthBar(_currentHealth, vidaMax);
         if (vidaMax <= 0)
         {
             Death();
-        } 
+        }
     }
 
 

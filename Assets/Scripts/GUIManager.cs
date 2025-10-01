@@ -31,7 +31,7 @@ public class GUIManager : MonoBehaviour
         GameManager.instance.Pause();
     }
 
-    public void UpdateHealthBar(int _currentHealth, int vidaMax)
+    public void UpdateHealthBar(float _currentHealth, float vidaMax)
     {
         _healthBar.fillAmount = _currentHealth / vidaMax;
     }

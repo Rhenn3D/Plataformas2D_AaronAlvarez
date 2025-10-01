@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
     private int _stars = 0;
 
 
-    [SerializeField] private InputActionAsset playerInputs;
+    public InputActionAsset playerInputs;
     private InputAction _pauseInput;
-    private bool _isPaused = false;
+    public bool _isPaused = false;
     void Awake()
     {
         
