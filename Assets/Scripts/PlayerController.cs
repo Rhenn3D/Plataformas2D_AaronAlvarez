@@ -162,8 +162,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
-
     void Death()
     {
         Debug.Log("Muere");

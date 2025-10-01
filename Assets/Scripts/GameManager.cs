@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private bool _isPaused = false;
     void Awake()
     {
+        
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -22,8 +23,9 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-
         DontDestroyOnLoad(gameObject);
+
+        
         _pauseInput = InputSystem.actions["Pause"];
     }
     void Update()
