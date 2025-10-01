@@ -49,10 +49,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (isAttacking == true)
+        if (isAttacking)
         {
             return;
         }
+        _moveInput = _moveAction.ReadValue<Vector2>();
         
     
 
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
         }
         _animator.SetBool("IsJumping", !IsGrounded());
         
-        if (_attackAction.WasPressedThisFrame() && !_moveAction.WasPressedThisFrame() && IsGrounded())
+        if (_attackAction.WasPressedThisFrame() && _moveInput.x == 0 && IsGrounded())
         {
             isAttacking = true;
             _animator.SetTrigger("IsAttacking");
@@ -104,8 +105,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        _moveInput = _moveAction.ReadValue<Vector2>();
         Move();
 
     }
@@ -171,7 +170,6 @@ public class PlayerController : MonoBehaviour
 
     public void NormalAttack()
     {
-        isAttacking = true;
         Collider2D[] enemy = Physics2D.OverlapCircleAll(_attackHitbox.position, _attackZone, 0);
         foreach (Collider2D enemies in enemy)
         {
@@ -183,6 +181,11 @@ public class PlayerController : MonoBehaviour
         
 
         }
+        
+    }
+
+    public void FinishAttack()
+    {
         isAttacking = false;
     }
 
