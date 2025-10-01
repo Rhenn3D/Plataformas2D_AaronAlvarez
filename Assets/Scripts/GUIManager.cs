@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUIManager : MonoBehaviour
 {
     public GameObject _pauseCanvas;
     public static GUIManager Instance;
+
+    [SerializeField] private Image _healthBar;
 
 
     void Awake()
@@ -26,5 +29,15 @@ public class GUIManager : MonoBehaviour
     public void Resume()
     {
         GameManager.instance.Pause();
+    }
+
+    public void UpdateHealthBar(int _currentHealth, int vidaMax)
+    {
+        _healthBar.fillAmount = _currentHealth / vidaMax;
+    }
+    
+    public void SceneChanger(string sceneName)
+    {
+        SceneLoader.Instance.ChangeScene(sceneName);
     }
 }

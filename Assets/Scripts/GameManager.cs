@@ -56,6 +56,6 @@ public class GameManager : MonoBehaviour
             playerInputs.FindActionMap("Player").Disable();
             _isPaused = true;
         }
-        
+
     }
 }

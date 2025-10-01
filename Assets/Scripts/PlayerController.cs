@@ -153,6 +153,8 @@ public class PlayerController : MonoBehaviour
     public void RecibirDaño(int Dañito)
     {
         _currentHealth -= Dañito;
+
+        GUIManager.Instance.UpdateHealthBar(_currentHealth, vidaMax);
         if (vidaMax <= 0)
         {
             Death();
