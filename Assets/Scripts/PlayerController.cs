@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _attackZone = 0.25f;
     [SerializeField] private float _jumpForce = 3f;
     [SerializeField] private float _playerVelocity = 3f;
+    [SerializeField] private float _attackDash = 0.5f;
+    [SerializeField] private float _attackDashTime = 0.5f;
     [SerializeField] private Transform _sensorPosition;
     [SerializeField] private Vector2 _sensorSize = new Vector2(0.5f, 0.5f);
     [SerializeField] private Vector2 _hitboxSize = new Vector2(1, 1);
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
         }
         Movement();
 
-        if (_interactAction.WasPerformedThisFrame())
+        if (_interactAction.WasPressedThisFrame())
         {
             Interact();
         }
@@ -79,6 +81,12 @@ public class PlayerController : MonoBehaviour
             isAttacking = true;
             _animator.SetTrigger("IsAttacking");
         }
+
+        if (_attackAction.WasPressedThisFrame() && _moveInput.x != 0 && IsGrounded())
+        {
+            _animator.SetTrigger("IsRunAttack");
+        }
+
 
        
 
@@ -141,15 +149,15 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("hago cositas, miau");
         Collider2D[] interactuables = Physics2D.OverlapBoxAll(transform.position, _hitboxSize, 0);
-        foreach (Collider2D estrella in interactuables)
+        foreach (Collider2D item in interactuables)
         {
-            if (estrella.gameObject.tag == "Star")
+            if (item.gameObject.layer == 10)
             {
-                Star starScript = estrella.gameObject.GetComponent<Star>();
-                if (starScript != null)
+                IInteractable interactables = item.gameObject.GetComponent<IInteractable>();
+                if (interactables != null)
 
                 {
-                    starScript.Interaction();
+                    interactables.Interact();
                 }
 
 
@@ -188,7 +196,6 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = false;
     }
-
 
 
     public void RecibirDaño(int Dañito)

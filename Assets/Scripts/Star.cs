@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Star : MonoBehaviour
+public class Star : MonoBehaviour, IInteractable
 {
 
 
@@ -13,7 +13,7 @@ public class Star : MonoBehaviour
         //_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    public void Interaction()
+    public void Interact()
     {
         //_gameManager.AddStar();
 
