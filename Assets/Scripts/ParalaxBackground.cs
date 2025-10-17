@@ -9,7 +9,6 @@ public class ParalaxBackground : MonoBehaviour
     void Start()
     {
         startPosition = transform.position.x;
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
     }
 
     void FixedUpdate()
