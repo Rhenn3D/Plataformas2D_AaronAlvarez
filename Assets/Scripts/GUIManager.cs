@@ -7,6 +7,8 @@ public class GUIManager : MonoBehaviour
     public static GUIManager Instance;
 
     [SerializeField] private Image _healthBar;
+    [SerializeField] private Text starCount;
+    [SerializeField] private Text coinCount;
 
 
     void Awake()
@@ -35,9 +37,18 @@ public class GUIManager : MonoBehaviour
     {
         _healthBar.fillAmount = _currentHealth / vidaMax;
     }
-    
+
     public void SceneChanger(string sceneName)
     {
         SceneLoader.Instance.ChangeScene(sceneName);
+    }
+
+    public void CoinText()
+    {
+        coinCount.text = "Coins: " + GameManager.instance._coins.ToString();
+    }
+    public void StarText()
+    {
+        starCount.text = "Stars: " + GameManager.instance._stars.ToString();
     }
 }

@@ -212,6 +212,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Heal(float healAmount)
+    {
+        _currentHealth += healAmount;
+        if (_currentHealth > vidaMax)
+        {
+            _currentHealth = vidaMax;
+        }
+        GUIManager.Instance.UpdateHealthBar(_currentHealth, vidaMax);
+    }
+
 
     void Death()
     {

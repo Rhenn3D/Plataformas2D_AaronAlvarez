@@ -6,15 +6,18 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance { get; private set; } //Esto sirve que para acceder (get) sea público y que cuando quiera cambiarlo es privado (private set)
-    private int _stars = 0;
+    public int _stars = 0;
+    public int _coins = 0;
+    public int maxStarsNeeded = 3;
 
 
     public InputActionAsset playerInputs;
     private InputAction _pauseInput;
     public bool _isPaused = false;
+
     void Awake()
     {
-        
+
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -25,8 +28,14 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        
+
         _pauseInput = InputSystem.actions["Pause"];
+    }
+
+    void Start()
+    {
+        GameObject[] estrellas = GameObject.FindGameObjectsWithTag("Star");
+        maxStarsNeeded = estrellas.Length;
     }
     void Update()
     {
@@ -40,6 +49,20 @@ public class GameManager : MonoBehaviour
     {
         _stars++;
         Debug.Log("Estrellas recogicas: " + _stars);
+    }
+    public void AddCoin()
+    {
+        _coins++;
+        Debug.Log("Monedas recogidas: " + _coins);
+    }
+
+    public void UpdateStarText()
+    {
+        GUIManager.Instance.StarText();
+    }
+    public void UpdateCoinText()
+    {
+        GUIManager.Instance.CoinText();
     }
 
     public void Pause()
@@ -59,5 +82,12 @@ public class GameManager : MonoBehaviour
             _isPaused = true;
         }
 
+    }
+    public void Victory()
+    {
+        if (_stars >= maxStarsNeeded)
+        {
+            Debug.Log("¡Has ganado!");
+        }
     }
 }
