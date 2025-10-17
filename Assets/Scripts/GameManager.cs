@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public InputActionAsset playerInputs;
     private InputAction _pauseInput;
     public bool _isPaused = false;
+    [SerializeField] private AudioClip victorySFX;
 
     void Awake()
     {
@@ -87,7 +88,12 @@ public class GameManager : MonoBehaviour
     {
         if (_stars >= maxStarsNeeded)
         {
+            GUIManager.Instance.ChangeCanvasStatus(GUIManager.Instance.victoryCanvas, true);
             Debug.Log("¡Has ganado!");
+            playerInputs.FindActionMap("Player").Disable();
+            Time.timeScale = 0;
+            AudioManager.instance.ReproduceSound(victorySFX);
+            
         }
     }
 }

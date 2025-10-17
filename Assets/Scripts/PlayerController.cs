@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _playerVelocity = 3f;
     [SerializeField] private float _attackDash = 0.5f;
     [SerializeField] private float _attackDashTime = 0.5f;
+
+    [SerializeField] private int normalAttackDamage = 2;
+
+    [SerializeField] private int runAttackDamage = 1;
     [SerializeField] private Transform _sensorPosition;
     [SerializeField] private Vector2 _sensorSize = new Vector2(0.5f, 0.5f);
     [SerializeField] private Vector2 _hitboxSize = new Vector2(1, 1);
@@ -26,6 +31,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float vidaMax = 5f;
     [SerializeField] private float _currentHealth;
     [SerializeField] private bool isAttacking = false;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _jumpSFX;
+    [SerializeField] private AudioClip _attackSFX;
+    [SerializeField] private AudioClip _runAttackSFX;
+    [SerializeField] private AudioClip _dealDamageSFX;
+    [SerializeField] private AudioClip _deadSFX;
+
+
 
 
 
@@ -39,7 +52,8 @@ public class PlayerController : MonoBehaviour
         _attackAction = InputSystem.actions["Attack"];
         _interactAction = InputSystem.actions["Interact"];
         _animator = GetComponent<Animator>();
-
+        _audioSource = GetComponent<AudioSource>();
+    
     }
 
     void Start()
@@ -75,17 +89,21 @@ public class PlayerController : MonoBehaviour
             Interact();
         }
         _animator.SetBool("IsJumping", !IsGrounded());
-        
+
         if (_attackAction.WasPressedThisFrame() && _moveInput.x == 0 && IsGrounded())
         {
             isAttacking = true;
             _animator.SetTrigger("IsAttacking");
+            AudioManager.instance.ReproduceSound(_attackSFX);
+            
         }
 
         if (_attackAction.WasPressedThisFrame() && _moveInput.x != 0 && IsGrounded())
         {
             _animator.SetTrigger("IsRunAttack");
+            AudioManager.instance.ReproduceSound(_runAttackSFX);
         }
+
 
 
        
@@ -125,6 +143,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         _rigidBody.AddForce(transform.up * Mathf.Sqrt(_jumpForce * -2 * Physics2D.gravity.y), ForceMode2D.Impulse);
+        AudioManager.instance.ReproduceSound(_jumpSFX);
 
 
     }
@@ -178,20 +197,40 @@ public class PlayerController : MonoBehaviour
 
     public void NormalAttack()
     {
-        Collider2D[] enemy = Physics2D.OverlapCircleAll(_attackHitbox.position, _attackZone, 0);
-        foreach (Collider2D enemies in enemy)
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackHitbox.position, _attackZone);
+        foreach (Collider2D enemy in enemies)
         {
-            if (enemies.gameObject.layer == 8)
+            if (enemy.gameObject.layer == 8)
             {
+                IDamageable damageable = enemy.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.DamageEnemy(normalAttackDamage);
+                }
 
-                Debug.Log("Mas pegao");
+                Debug.Log("Ataque normal");
             }
-        
-
         }
         
     }
+    public void RunAttack()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackHitbox.position, _attackZone);
+        foreach (Collider2D enemy in enemies)
+        {
+            if (enemy.gameObject.layer == 8)
+            {
+                IDamageable damageable = enemy.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.DamageEnemy(runAttackDamage);
+                }
 
+                Debug.Log("Ataque corriendo");
+            }
+        }
+        
+    }
     public void FinishAttack()
     {
         isAttacking = false;
@@ -204,11 +243,12 @@ public class PlayerController : MonoBehaviour
 
         float vida = _currentHealth / vidaMax;
         Debug.Log("Holi");
+        AudioManager.instance.ReproduceSound(_dealDamageSFX);
 
         GUIManager.Instance.UpdateHealthBar(_currentHealth, vidaMax);
         if (vidaMax <= 0)
         {
-            Death();
+            StartCoroutine(Death());
         }
     }
 
@@ -223,8 +263,13 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void Death()
+    IEnumerator Death()
     {
         Debug.Log("Muere");
+        AudioManager.instance.ReproduceSound(_deadSFX);
+        _animator.SetTrigger("IsDead");
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+       
     }
 }

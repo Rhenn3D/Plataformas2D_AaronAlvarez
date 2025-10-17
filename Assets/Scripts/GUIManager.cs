@@ -9,6 +9,7 @@ public class GUIManager : MonoBehaviour
     [SerializeField] private Image _healthBar;
     [SerializeField] private Text starCount;
     [SerializeField] private Text coinCount;
+    public GameObject victoryCanvas;
 
 
     void Awake()
