@@ -12,6 +12,7 @@ public class GUIManager : MonoBehaviour
     public GameObject victoryCanvas;
 
 
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -52,4 +53,5 @@ public class GUIManager : MonoBehaviour
     {
         starCount.text = "Stars: " + GameManager.instance._stars.ToString();
     }
+
 }

@@ -236,17 +236,25 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 9)
+        {
+            GameManager.instance.GameOver();
+            Destroy(gameObject);
+        }
+    }
+
 
     public void RecibirDaño(int Dañito)
     {
         _currentHealth -= Dañito;
 
         float vida = _currentHealth / vidaMax;
-        Debug.Log("Holi");
         AudioManager.instance.ReproduceSound(_dealDamageSFX);
 
         GUIManager.Instance.UpdateHealthBar(_currentHealth, vidaMax);
-        if (vidaMax <= 0)
+        if (_currentHealth <= 0)
         {
             StartCoroutine(Death());
         }
@@ -270,6 +278,6 @@ public class PlayerController : MonoBehaviour
         _animator.SetTrigger("IsDead");
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
-       
+        GameManager.instance.GameOver();
     }
 }
